@@ -7,12 +7,13 @@
         public function apply($collection, $request)
         {
             foreach($request->all() as $key => $value){
+                // Check query paramter exists in url and method exists in trait file to filter data
                 if($request->has($key) &&  method_exists(__TRAIT__, $key)){
                     $methodName = $key;
                     $collection = $this->$methodName($collection, $request);
                 }
             }
-            return $collection;
+            return $collection->values();
         }
 
         public function statusCode($collection, $request)
@@ -59,9 +60,10 @@
         public function balanceMin($collection, $request)
         {
             $collection = $collection->filter(function ($value, $key)use($request) {
+                $balanceMin = (int) $request->balanceMin;
                 return
-                    (isset($value['balance']) && $value['balance'] >= $request->balanceMin) ||
-                    (isset($value['parentAmount']) && $value['parentAmount'] >= $request->balanceMin);
+                    (isset($value['balance']) && $value['balance'] >= $balanceMin) ||
+                    (isset($value['parentAmount']) && $value['parentAmount'] >= $balanceMin);
             });
 
             return $collection;

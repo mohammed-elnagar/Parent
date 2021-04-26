@@ -5,8 +5,9 @@ trait UsersHelpers{
 
     public function ProviderQuery($fileName)
     {
-        $data = getDataFromFile($fileName);
-        return $data;
+        $data       = getDataFromFile($fileName);
+        $collection = collect($data);
+        return $collection;
     }
 
     public function allProvidersFiles()

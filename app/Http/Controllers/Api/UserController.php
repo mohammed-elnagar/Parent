@@ -21,8 +21,7 @@ class UserController extends Controller
             if(!fileExists($fileName))
                 return apiResponse(null, null, __('The provider not found.'), 404);
 
-            $data       = $this->ProviderQuery($fileName);
-            $collection = collect($data);
+            $collection = $this->ProviderQuery($fileName);
         }else{
             // Data merged from all files
             $collection = $this->allProvidersFiles();
